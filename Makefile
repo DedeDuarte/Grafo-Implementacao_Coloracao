@@ -2,7 +2,7 @@ CXX = g++
 CXXFLAGS = -std=c++17 -Wall -Wextra
 INCLUDES = include
 
-SRC = src/main.cpp src/*.cpp
+SRC = src/*.cpp
 TARGET = a.out
 
 all:
