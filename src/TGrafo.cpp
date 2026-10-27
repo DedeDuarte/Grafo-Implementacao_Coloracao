@@ -13,6 +13,8 @@
  */
 
 #include <iostream>
+#include <iomanip>
+#include <string>
 #include <queue>
 #include <stack>
 #include <vector>
@@ -112,28 +114,21 @@ void TGrafo::show_(){
     Apresenta a matriz de adjacencia em formato tabular
 */
 void TGrafo::show(){
-    std::cout << "   ";
+    const int largura_rotulo = static_cast<int>(std::to_string(n > 0 ? n - 1 : 0).size());
+    const int largura_coluna = largura_rotulo + 1;
 
-    for(int w = 0; w < n; w++){
-        if(w > 0)
-            std::cout << " ";
-        std::cout << w;
-    }
-
+    std::cout << std::string(largura_rotulo + 2, ' ');
+    for (int w = 0; w < n; w++)
+        std::cout << std::setw(w == 0 ? 1 : largura_coluna) << w;
     std::cout << std::endl;
 
-    for(int i = 0; i < n; i++){
-        std::cout << i << " [";
-
-        for(int w = 0; w < n; w++){
-            if(w > 0)
-                std::cout << " ";
-            std::cout << adj[i][w];
-        }
-
+    for (int i = 0; i < n; i++) {
+        std::cout << std::setw(largura_rotulo) << i << " [";
+        for (int w = 0; w < n; w++)
+            std::cout << std::setw(w == 0 ? 1 : largura_coluna) << adj[i][w];
         std::cout << "]" << std::endl;
     }
-}
+} 
 
 // Coloração sequencial
 std::vector<std::vector<int>> TGrafo::coloracao() {
