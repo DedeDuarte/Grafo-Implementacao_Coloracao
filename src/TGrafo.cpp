@@ -13,8 +13,9 @@
  */
 
 #include <iostream>
-#include <stack>
 #include <queue>
+#include <stack>
+#include <vector>
 #include "../include/TGrafo.hpp"
 
 bool _vector_find(const std::vector<int>& v, const int num) {
@@ -134,52 +135,44 @@ void TGrafo::show(){
     }
 }
 
-std::vector<int> TGrafo::busca_profundidade(int inicial) {
-    std::vector<int> visitados;
-    std::stack<int> stack;
-    int no = inicial;
+// Coloração sequencial
+std::vector<std::vector<int>> TGrafo::coloracao() {
+    std::vector<std::vector<int>> cores(this->n);
 
-    visitados.push_back(no);
-    stack.push(no);
+    int cor = 0;
 
-    while (!stack.empty()) {
-        no = stack.top();
-        stack.pop();
+    // Para cada vertice
+    for (int i = 0; i < this->n; i++) {
+        bool conflito = true;
 
-        for (int i = 0; i < this->n; i++) {
-            if (this->adj[no][i] == 0 || _vector_find(visitados, i))
-                continue;
+        // Enquanto nao encontrar uma cor diferente dos seus vizinhos
+        while (conflito) {
+            conflito = false;
 
-            visitados.push_back(i);
-            stack.push(no);
-
-            no = i;
+            // Procura algum vizinho em cores[cor]
+            for (int j : cores[cor]) {
+                if (this->adj[i][j]) { // Se achar, pula para a proxima cor
+                    conflito = true;
+                    cor++;
+                    break;
+                }
+            }
         }
+
+        cores[cor].push_back(i);
+
+        cor = 0;
     }
 
-    return visitados;
+    return cores;
 }
 
-std::vector<int> TGrafo::busca_largura(int inicial) {
-    std::vector<int> visitados;
-    std::queue<int> queue;
-    int no = inicial;
+void TGrafo::print_cores(std::vector<std::vector<int>>& cores) {
+    std::cout << "Vertices de cada cor:" << std::endl;
+    for (const std::vector<int>& cor : cores) {
+        std::cout << "    Cor 1:";
 
-    visitados.push_back(no);
-    queue.push(no);
-
-    while (!queue.empty()) {
-        no = queue.front();
-        queue.pop();
-
-        for (int i = 0; i < this->n; i++) {
-            if (this->adj[no][i] == 0 || _vector_find(visitados, i))
-                continue;
-
-            visitados.push_back(i);
-            queue.push(i);
-        }
+        for (int i : cor)
+            std::cout << ' ' << i;
     }
-
-    return visitados;
 }

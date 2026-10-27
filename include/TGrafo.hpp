@@ -26,19 +26,20 @@ e métodos para utilização de um grafo dirigido.
 // Também seria possível criar um arquivo grafo.h 
 // e fazer a inclusão "#include <grafo.h>"
 class TGrafo{
-    private:
-        int n; // quantidade de vértices
-        int m; // quantidade de arestas
-        int **adj; //matriz de adjacência
-    public:
-        TGrafo(int n);
-        void insereA(int v, int w);
-        void removeA(int v, int w);
-        void show();
-        void show_();
-        std::vector<int> busca_profundidade(int inicial);
-        std::vector<int> busca_largura(int inicial);
-        ~TGrafo();
+private:
+    int n; // quantidade de vértices
+    int m; // quantidade de arestas
+    int **adj; //matriz de adjacência
+
+public:
+    TGrafo(int n);
+    void insereA(int v, int w);
+    void removeA(int v, int w);
+    void show();
+    void show_();
+    std::vector<std::vector<int>> coloracao();
+    void print_cores(std::vector<std::vector<int>>& cores);
+    ~TGrafo();
 };
 
 #endif
