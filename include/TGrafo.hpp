@@ -1,6 +1,6 @@
 /**
  * Implementação:
- * Busca em Largura e Profundidade (Grupo do Projeto)
+ * Coloração sequencial de vértices (Grupo do Projeto)
  * 
  * Integrantes:
  * |=================================|==========|
