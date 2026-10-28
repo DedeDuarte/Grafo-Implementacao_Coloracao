@@ -13,4 +13,4 @@ run: all
 	@rm $(TARGET)
 
 clean:
-	@rm $(TARGET)
+	@rm -f $(TARGET)
