@@ -3,3 +3,4 @@ Cmm/*
 *.out
 *.zip
 coloracao.pdf
+/build/

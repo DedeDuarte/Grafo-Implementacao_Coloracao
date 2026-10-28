@@ -30,11 +30,16 @@ private:
     int n; // quantidade de vértices
     int m; // quantidade de arestas
     int **adj; //matriz de adjacência
+    void validarVertices(int v, int w) const;
 
 public:
     TGrafo(int n);
+    // A matriz pertence exclusivamente a este objeto (sem cópia superficial).
+    TGrafo(const TGrafo&) = delete;
+    TGrafo& operator=(const TGrafo&) = delete;
     void insereA(int v, int w);
     void removeA(int v, int w);
+    bool existeA(int v, int w) const;
     void show();
     void show_();
     std::vector<std::vector<int>> coloracao();
