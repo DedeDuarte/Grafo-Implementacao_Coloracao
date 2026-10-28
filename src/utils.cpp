@@ -93,11 +93,13 @@ void preencher_grafos(TGrafo& g1, TGrafo& g2, TGrafo& g3) {
 void print_vector_int(std::vector<int> v) {
     std::cout << "[";
 
-    int i;
-    for (i = 0; i < (int)v.size()-1; i++)
-        std::cout << v[i] << ", ";
+    for (std::size_t i = 0; i < v.size(); i++) {
+        if (i > 0)
+            std::cout << ", ";
+        std::cout << v[i];
+    }
 
-    std::cout << v[i] << "]" << std::endl;
+    std::cout << "]" << std::endl;
 }
 
 void imprimir_coloracao(const char* nome, const std::vector<std::vector<int>>& cores) {
