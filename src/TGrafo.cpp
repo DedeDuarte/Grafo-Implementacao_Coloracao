@@ -15,19 +15,8 @@
 #include <iostream>
 #include <iomanip>
 #include <string>
-#include <queue>
-#include <stack>
 #include <vector>
 #include "../include/TGrafo.hpp"
-
-bool _vector_find(const std::vector<int>& v, const int num) {
-    for (auto i : v) {
-        if (i == num)
-            return true;
-    }
-
-    return false;
-}
 
 /*
     Construtor do TGrafo, responsável por 
@@ -58,10 +47,10 @@ TGrafo::TGrafo( int n ){
     liberar a memória alocada para a matriz
 */
 TGrafo::~TGrafo(){
-    n = 0;
-    m = 0;
+    for (int i = 0; i < n; i++)
+        delete[] adj[i];
 
-    delete [] *adj;
+    delete[] adj;
 
     std::cout << "espaco liberado" << std::endl;
 }
@@ -130,7 +119,9 @@ void TGrafo::show(){
     }
 } 
 
-// Coloração sequencial
+/*
+    Coloração sequencial
+*/
 std::vector<std::vector<int>> TGrafo::coloracao() {
     std::vector<std::vector<int>> cores(this->n);
 
@@ -160,14 +151,4 @@ std::vector<std::vector<int>> TGrafo::coloracao() {
     }
 
     return cores;
-}
-
-void TGrafo::print_cores(std::vector<std::vector<int>>& cores) {
-    std::cout << "Vertices de cada cor:" << std::endl;
-    for (const std::vector<int>& cor : cores) {
-        std::cout << "    Cor 1:";
-
-        for (int i : cor)
-            std::cout << ' ' << i;
-    }
 }

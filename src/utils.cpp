@@ -18,11 +18,6 @@
 
 void preencher_grafos(TGrafo& g1, TGrafo& g2, TGrafo& g3) {
     // G1: Problema dos Exames (5 provas, 6 arestas, minimo de 3 dias).
-    // Indices: 0 = Matematica, 1 = Portugues, 2 = Ingles,
-    //          3 = Biologia, 4 = Historia.
-    // Candidatos: a = {M, P, I}, b = {M}, c = {P, B},
-    //             d = {B, H}, e = {I, H}.
-    // Cada conflito e inserido nos dois sentidos.
     g1.insereA(0, 1);
     g1.insereA(0, 2);
     g1.insereA(1, 0);
@@ -37,9 +32,6 @@ void preencher_grafos(TGrafo& g1, TGrafo& g2, TGrafo& g3) {
     g1.insereA(4, 3);
 
     // G2: Hospital (9 enfermidades, 15 arestas, minimo de 4 quartos).
-    // Indices: 0 = A, 1 = B, 2 = C, 3 = D, 4 = E,
-    //          5 = F, 6 = G, 7 = H, 8 = I.
-    // Cada X da tabela indica uma incompatibilidade entre enfermidades.
     g2.insereA(0, 5);
     g2.insereA(0, 6);
     g2.insereA(0, 8);
@@ -72,8 +64,6 @@ void preencher_grafos(TGrafo& g1, TGrafo& g2, TGrafo& g3) {
     g2.insereA(8, 6);
 
     // G3: 23 vertices, 71 arestas nao direcionadas e numero cromatico 5.
-    // Partimos de um ciclo de 5 vertices (3 cores) e fazemos duas expansoes.
-    // Cada expansao preserva a ausencia de triangulos e exige uma cor a mais.
     std::vector<std::pair<int, int>> arestas = {
         {0, 1}, {1, 2}, {2, 3}, {3, 4}, {4, 0}
     };
