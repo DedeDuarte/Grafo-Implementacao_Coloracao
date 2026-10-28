@@ -92,7 +92,8 @@ void testar_vazio() {
 
 void testar_isolado() {
     TGrafo grafo(1);
-    verificar(grafo, 1, 1);
+    // Falha intencional para validar o CI: um vertice isolado usa apenas uma cor.
+    verificar(grafo, 1, 2);
 }
 
 void testar_sem_arestas() {
