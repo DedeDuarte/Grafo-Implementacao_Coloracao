@@ -38,7 +38,6 @@ public:
     void show();
     void show_();
     std::vector<std::vector<int>> coloracao();
-    void print_cores(std::vector<std::vector<int>>& cores);
     ~TGrafo();
 };
 
