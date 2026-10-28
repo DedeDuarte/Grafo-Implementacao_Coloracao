@@ -15,6 +15,7 @@
 #include <iostream>
 #include <iomanip>
 #include <string>
+#include <stdexcept>
 #include <vector>
 #include "../include/TGrafo.hpp"
 
@@ -23,23 +24,30 @@
     Criar a matriz de adjacência v x v do Grafo
 */
 TGrafo::TGrafo( int n ){
+    if (n < 0)
+        throw std::invalid_argument("A quantidade de vertices nao pode ser negativa");
+
     this->n = n;
 
     // No início dos tempos não há arestas
     this->m = 0; 
 
     // aloca da matriz do TGrafo
-    int **adjac = new int*[n];
+    int **adjac = new int*[n]();
 
-    for(int i = 0; i < n; i++)
-        adjac[i]= new int[n];
+    try {
+        // Inicia cada linha com zeros.
+        for (int i = 0; i < n; i++)
+            adjac[i] = new int[n]();
+    } catch (...) {
+        // O destrutor não é chamado quando a construção falha.
+        for (int i = 0; i < n; i++)
+            delete[] adjac[i];
+        delete[] adjac;
+        throw;
+    }
 
     adj = adjac;
-
-    // Inicia a matriz com zeros
-    for(int i = 0; i< n; i++)
-        for(int j = 0; j< n; j++)
-            adj[i][j]=0;    
 }
 
 /*
@@ -60,6 +68,7 @@ TGrafo::~TGrafo(){
     v é adjacente a w
 */
 void TGrafo::insereA( int v, int w){
+    validarVertices(v, w);
     // testa se nao temos a aresta
     if(adj[v][w] == 0){
         adj[v][w] = 1;
@@ -71,11 +80,22 @@ void TGrafo::insereA( int v, int w){
     Remove uma aresta v->w do Grafo
 */
 void TGrafo::removeA(int v, int w){
+    validarVertices(v, w);
     // testa se temos a aresta
     if(adj[v][w] == 1){
         adj[v][w] = 0;
         m--; // atualiza qtd arestas
     }
+}
+
+void TGrafo::validarVertices(int v, int w) const {
+    if (v < 0 || w < 0 || v >= n || w >= n)
+        throw std::out_of_range("Indice de vertice fora do grafo");
+}
+
+bool TGrafo::existeA(int v, int w) const {
+    validarVertices(v, w);
+    return adj[v][w] != 0;
 }
 
 /*
@@ -123,6 +143,11 @@ void TGrafo::show(){
     Coloração sequencial
 */
 std::vector<std::vector<int>> TGrafo::coloracao() {
+    // Um laço torna impossível uma coloração própria.
+    for (int i = 0; i < n; i++)
+        if (adj[i][i])
+            throw std::domain_error("Nao existe coloracao propria para grafo com laco");
+
     std::vector<std::vector<int>> cores(this->n);
 
     int cor = 0;
@@ -137,7 +162,8 @@ std::vector<std::vector<int>> TGrafo::coloracao() {
 
             // Procura algum vizinho em cores[cor]
             for (int j : cores[cor]) {
-                if (this->adj[i][j]) { // Se achar, pula para a proxima cor
+                // Uma aresta em qualquer sentido impede compartilhar a cor.
+                if (this->adj[i][j] || this->adj[j][i]) { // Se achar, pula para a proxima cor
                     conflito = true;
                     cor++;
                     break;

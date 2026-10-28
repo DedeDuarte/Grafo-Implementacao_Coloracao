@@ -1,0 +1,50 @@
+name: C++ CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  CXX: g++
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do repositório
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - name: Compilar a demonstração com GCC
+        run: make CXX="$CXX"
+      - name: Executar a demonstração
+        run: make run CXX="$CXX"
+
+  tests:
+    name: Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do repositório
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - name: Compilar e executar os testes
+        run: make test CXX="$CXX"
+
+  sanitizers:
+    name: Sanitizers
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do repositório
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - name: Executar os testes com ASan e UBSan
+        run: make sanitize CXX="$CXX"
